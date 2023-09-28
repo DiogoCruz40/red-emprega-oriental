@@ -1,0 +1,73 @@
+version: '3.7' # specify docker-compose version
+ 
+# Define the services/containers to be run
+services:
+ frontend:
+  container_name: frontend
+  build:
+    context: ./frontend
+    dockerfile: Dockerfile.qa
+  ports:
+    - '80:80'
+    - "443:443"
+  environment:
+    - API_URL=https://workipedia.pt:8443/
+    - CHOKIDAR_USEPOLLING=true
+    - NODE_ENV=production
+  restart: always
+  volumes:
+    - "./frontend:/app"
+    - ./data/nginx:/etc/nginx/conf.d
+ backend: # name of the first service
+   container_name: backend
+   build: 
+    context: ./backend # specify the directory of the Dockerfile
+    dockerfile: Dockerfile.qa
+   ports:
+     - "8443:8443"
+   environment:
+     - NODE_ENV=production
+     - MONGO_URL=mongodb://database/rede_emprega_db
+   links:
+     - database
+   restart: always
+   container_name: backend
+   depends_on:
+     - database
+   volumes:
+      - "./backend:/app"
+ database: # name of the third service
+   container_name: database
+   image: mongo:4.4 # specify image to build container from
+   environment:
+    MONGO_INITDB_ROOT_USERNAME: redemprega
+    MONGO_INITDB_ROOT_PASSWORD: w32*113kf'ad_234sknb
+    MONGO_INITDB_DATABASE: rede_emprega_db
+   restart: always
+   ports:
+     - "27017:27017" # specify port forewarding
+   volumes:
+      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+ redis:
+   container_name: redis
+   image: "redis:alpine"
+   restart: always
+ backup:
+  container_name: backup
+  build: ./backup
+  depends_on:
+    - database
+  environment:
+    - AWS_ACCESS_KEY_ID=AKIAUM26AIJWAMMLTUGJ
+    - AWS_SECRET_ACCESS_KEY=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
+    - BUCKET=sf4f2a3523a5sj3fdm358xmrjs9r
+    - BACKUP_FOLDER=prod/db/
+    - INIT_BACKUP=true
+    - TZ=Europe/Lisbon
+    - CRON_TZ=Europe/Lisbon
+    - MONGODB_HOST=database
+    - MONGODB_PORT=27017
+    - MONGODB_USER=redEmprega
+    - MONGODB_PASS=g9rFv+fm3i56<RszP
+    - MONGODB_DB=rede_emprega_db
+  restart: always

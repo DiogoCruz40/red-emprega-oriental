@@ -1,0 +1,128 @@
+<footer>
+  <section id="footer" class="footer">
+    <div class="container">
+      <p-toast></p-toast>
+      <div class="row d-flex justify-content-center align-items-start">
+        <div class="col-lg-4 col-md-6 align-self-center">
+          <div class="col-8">
+            <img src="../../../assets/img/logos/workipedia-v3.png" alt="RedEmpregaLXOriental_Logo"
+              class="img-fluid logo-footer" draggable="false" />
+          </div>
+        </div>
+        <div class="
+            col-lg-4 col-md-6
+            d-flex
+            justify-content-md-start
+            footer-links
+            text-left
+            border-start border-end
+          ">
+          <ul>
+            <li>
+              <h2 class="big-title">
+                Links Importantes
+                <hr class="big-title-line" />
+              </h2>
+            </li>
+
+            <li class="pt-3" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <a routerLink="./sobre-nos">Sobre Nós</a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <a routerLink="./ofertas-emprego">Ofertas de Emprego</a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <a routerLink="./ofertas-formacao">Ofertas de Formação</a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <a routerLink="./noticias">Noticias</a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <a routerLink="./contactos">Contactos</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <div class="footer-newsletter">
+            <h2 class="big-title">Newsletter</h2>
+            <hr class="big-title-line" />
+            <p class="pt-3">Para saber mais acerca das nossas ofertas!</p>
+            <form [formGroup]="newsletterForm">
+              <div class="input-group pt-1 pb-1" style="flex-wrap: nowrap">
+                <div>
+                  <span class="p-float-label">
+                    <input formControlName="email" name="email" type="text" class="form-control" id="email"
+                      [(ngModel)]="newsletter.email" pInputText />
+                    <label for="email" class="form-label" [ngClass]="{
+                        'text-red':
+                          submitted && newsletterForm.controls.email?.errors
+                      }">Email*</label>
+                  </span>
+                  <div *ngIf="submitted && newsletterForm.controls.email.invalid" class="alert alert-danger p-1 mb-0">
+                    <div *ngIf="newsletterForm.controls.email.errors.required">
+                      Email é obrigatório.
+                    </div>
+                    <div *ngIf="newsletterForm.controls.email.errors.pattern">
+                      Email inválido. Ex: exemplo@exemplo.pt
+                    </div>
+                  </div>
+                </div>
+                <re-politica-privacidade-as-modal #politicaPrivacidade></re-politica-privacidade-as-modal>
+                <div class="text-center">
+                  <span class="input-group-btn">
+                    <button class="btn btn-danger" data-loading-text="<span>Subscrever</span>" type="submit">
+                      <span (click)="newEmail()">Subscrever</span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div class="checkbox pt-2">
+                <mat-checkbox formControlName="termos" id="termos" [color]="'warn'">Li e concordo com os&nbsp;
+                </mat-checkbox>
+                <a class="agree">
+                  <b (click)="openTermos()">termos de utilização</b></a>.
+                <div *ngIf="submitted && newsletterForm.controls.termos.invalid" class="alert alert-danger p-1 mb-0"
+                  style="max-width: 350px">
+                  <div *ngIf="newsletterForm.controls.termos.errors.required">
+                    A aprovação dos termos é obrigatório.
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid copyright">
+      <div class="row">
+        <div class="
+            col-md-6
+            d-flex
+            justify-content-center
+            align-items-center
+            text-center text-md-left
+          ">
+          <div>
+            &copy; Copyright <strong><span>RedEmpregaLXOriental</span></strong>.Todos os direitos reservados. |
+            Desenvolvido por
+            <a href="mailto:p.m.cruz@hotmail.com">Pedro Cruz</a> &
+            <a target="_blank" rel="noopener noreferrer" href="https://www.diogoc.pt/" id="update"
+              style="text-decoration: none;">Diogo Cruz</a>
+          </div>
+        </div>
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+          <ul class="pt-md-3">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <a routerLink="./termos-utilizacao"> Termos de Utilização</a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              <a routerLink="./politica-privacidade">
+                Política de Privacidade</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</footer>
+<!-- End Footer -->

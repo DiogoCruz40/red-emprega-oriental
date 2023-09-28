@@ -1,0 +1,83 @@
+@use "../../../../../styles/index" as *;
+
+.content-box .card-list {
+    .card {
+        background-color: $light;
+
+        .card-header {
+            font-weight: bold;
+            border-bottom: none;
+        }
+        .descricao-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* number of lines to show */
+            -webkit-box-orient: vertical;
+        }
+        .titulo-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* number of lines to show */
+            -webkit-box-orient: vertical;
+        }
+    }
+    .novo {
+        cursor: pointer;
+        .ai {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+.card-info {
+}
+:host ::ng-deep {
+    .airc-table-header {
+        background: white !important;
+    }
+}
+
+.container-box {
+    overflow: auto;
+    .content-box {
+        height: calc(100% - 140px);
+    }
+}
+
+section {
+    padding: 30px 0;
+}
+
+.ler-mais-box {
+    max-height: 20px;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.preVisualizar {
+    cursor: pointer;
+}
+
+.imagemSelecionada {
+    max-height: 400px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto !important;
+    height: auto !important;
+}
+
+.thumbnail {
+    max-height: 8vw;
+    max-width: 8vw;
+    width: auto !important;
+    height: auto !important;
+    margin: auto;
+}

@@ -1,0 +1,183 @@
+<section id="ofertas-formacao" class="ofertas-formacao">
+  <p-toast></p-toast>
+  <div class="container container-box mt-3">
+    <div class="row m-3">
+      <div class="col-9 p-0">
+        <h2 class="w-auto big-title d-inline">
+          Ofertas de Formação
+        </h2>
+        <hr class="big-title-line mb-3">
+      </div>
+      <div class="col-md-3 col-sm-7 col-9 align-items-center text-end">
+        <re-search-box placeholder="Pesquisa" [wordToSearch]="searchInput" (update)="searchInput = $event"
+          class="w-100">
+        </re-search-box>
+      </div>
+    </div>
+
+    <input name="email" style="display: none" [(ngModel)]="antiSpamBot">
+    <div class="content-box">
+      <div class="card-list overflow-hidden align-items-center">
+        <div class="row no-gutters">
+          <div class="col-12 pt-6 px-0" *ngFor="let oferta of ofertaFormacaoList; let i = index">
+            <div class="re-card cursor-pointer mb-4 mx-auto mt-1" [ngClass]="{'active': ofertaSelected===oferta}">
+              <div class="w-100 p-4">
+                <div class="row card-title border-bottom">
+                  <h4 class="fw-bold text-left float-left" [innerHTML]="oferta.nome">
+                  </h4>
+                </div>
+                <div class="card-content px-3 pt-3 row no-gutters">
+                  <div class="col-12">
+                    <span class="mt-2 mb-1 me-1 fw-bold">Área de Formação:</span>
+                    <span [innerHTML]="oferta.areaFormacao | highlight: searchInput"> <br />
+                    </span>
+                  </div>
+                  <div class="col-md-8 col-12">
+                    <span class="mt-2 mb-1 me-1 fw-bold">Local:</span>
+                    <span [innerHTML]="oferta.local | highlight: searchInput">
+                      <br />
+                    </span>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <span class="mt-2 mb-1 me-1 fw-bold">Data Limite:</span>
+                    <span [innerHTML]="oferta.dataLimite | date: 'dd/MM/yyyy' | highlight: searchInput"> <br />
+                    </span>
+                  </div>
+                  <div class="col-md-8 col-12">
+                    <span class="mt-2 mb-1 me-1 fw-bold">Horário:</span>
+                    <span [innerHTML]="oferta.horario | highlight: searchInput"><br />
+                    </span>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <span class="mt-2 mb-1 me-1 fw-bold">Contacto:</span>
+                    <span [innerHTML]="oferta.contacto?.toString() | highlight: searchInput"><br />
+                    </span>
+                  </div>
+                  <div #myDivResposta{{i}} id="myDivResposta{{i}}" [ngClass]="{'ler-mais-box': oferta.lerMais} "
+                    class="transicao-resposta" [ngStyle]="{'max-height': oferta.tamanho}">
+                    <div class="col-12" *ngIf="oferta.observacoes">
+                      <span class="mt-2 mb-1 me-1 fw-bold">Observações:</span>
+                      <span style="white-space: pre-line" [innerHTML]="oferta.observacoes | highlight: searchInput"><br />
+                      </span>
+                    </div>
+                    <div class="col-12" *ngIf="oferta.anexos?.length">
+                      <span class="mt-2 mb-1 me-1 fw-bold">Anexos:</span>
+                      <span *ngFor="let anexo of oferta.anexos; let i = index">
+                        {{anexo.fileName}}
+                        <button class="mx-2 px-1" pButton icon="pi pi-download" style="font-size: 0.25rem"
+                          (click)="getAnexo(anexo._id)"></button>
+                      </span>
+                    </div>
+                    <p [ngClass]="{'ler-mais' :oferta.lerMais}" class="text-danger font-weight-bold text-center"
+                      (click)="onLerMais(i)">
+                      <ng-container *ngIf="oferta.lerMais">Ver mais</ng-container>
+                      <ng-container *ngIf="!oferta.lerMais"><span class="ver-menos">Ver menos</span></ng-container>
+                    </p>
+                  </div>
+                </div>
+                <div class="d-md-flex row justify-content-md-end align-items-center pt-4 border-top">
+                  <div class="col-md-8">
+                    <p>*Candidate-se somente caso esteja mesmo interessado em estar presente nesta oferta de formacao.
+                    </p>
+                  </div>
+                  <div class="col-md-4 justify-content-end d-flex">
+                    <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#collapseExample' + i" aria-expanded="false" (click)="newOferta(oferta)"
+                      aria-controls="collapseExample">
+                      Candidatar-se
+                    </button>
+                  </div>
+                </div>
+                <div class="collapse mt-3" [attr.id]="'collapseExample' + i" style="border-top: 1px dotted gray;"
+                  [ngClass]="{'show': oferta.isCollapsed}">
+                  <div class="pt-3">
+                    <form class="row g-3" [formGroup]="ofertaFormacaoForm">
+                      <div class="col-md-4 pt-3 ">
+                        <span class="p-float-label">
+                          <input formControlName="nome" name="nome" type="text" class="form-control" id="nome"
+                            [ngClass]="{'float-input-invalid ng-dirty': submitted && ofertaFormacaoForm.controls.nome.invalid}"
+                            [(ngModel)]="newCandidatura.nome" pInputText>
+                          <label for="nome" class="form-label">Nome*</label>
+                        </span>
+                        <div *ngIf="submitted && (ofertaFormacaoForm.controls.nome.invalid)">
+                          <small class="p-error" *ngIf="ofertaFormacaoForm.controls.nome.errors.required">Nome é
+                            obrigatório.
+                          </small>
+                        </div>
+
+                      </div>
+                      <div class="col-md-4 pt-3 ">
+                        <span class="p-float-label">
+                          <input formControlName="email" name="email" type="text" class="form-control" id="email"
+                            [ngClass]="{'float-input-invalid ng-dirty': submitted && ofertaFormacaoForm.controls.email.invalid}"
+                            [(ngModel)]="newCandidatura.email" pInputText>
+                          <label for="email" class="form-label">Email*</label>
+                        </span>
+                        <div *ngIf="submitted && (ofertaFormacaoForm.controls.email.invalid)">
+                          <small class="p-error" *ngIf="ofertaFormacaoForm.controls.email.errors.required">Email é
+                            obrigatório.</small>
+                          <small class="p-error" *ngIf="ofertaFormacaoForm.controls.email.errors.pattern">Email
+                            inválido. Ex:
+                            exemplo@exemplo.pt
+                          </small>
+                        </div>
+                      </div>
+                      <div class="col-md-4 pt-3 ">
+                        <div class="p-inputgroup">
+                          <span class="p-inputgroup-addon">
+                            <span>+351</span>
+                          </span>
+                          <span class="p-float-label">
+                            <input formControlName="telemovel" name="telemovel" type="number" class="form-control"
+                              [ngClass]="{'float-input-invalid ng-dirty': submitted && ofertaFormacaoForm.controls.telemovel.invalid}"
+                              id="telemovel" [(ngModel)]="newCandidatura.telemovel" pInputText>
+                            <label for="telemovel" class="form-label">Telémovel/Telefone*</label>
+                          </span>
+                        </div>
+                        <div *ngIf="submitted && ofertaFormacaoForm.controls.telemovel.invalid">
+                          <small class="p-error"
+                            *ngIf="ofertaFormacaoForm.controls.telemovel.errors.required">Telémovel/Telefone é
+                            obrigatório.
+                          </small>
+                        </div>
+                      </div>
+                      <div class="col-md-12 pt-3">
+                        <span class="p-float-label">
+                          <textarea formControlName="observacoes" class="form-control" name="observacoes" rows="4"
+                            id="observacoes" style="resize: none" [(ngModel)]="newCandidatura.observacoes"
+                            pInputText></textarea>
+                          <label for="observacoes" class="form-label">Observações</label>
+                        </span>
+                      </div>
+                      <div class="col-12 agree_terms mx-1">
+                        <div class="checkbox pt-2">
+                          <mat-checkbox formControlName="termos" id="termos" [color]="'warn'">Li e concordo com
+                            os&nbsp;
+                          </mat-checkbox>
+                          <a class="agree"> <b (click)="openTermos()">termos de utilização</b></a>.
+                          <div *ngIf="submitted && ofertaFormacaoForm.controls.termos.invalid" style="max-width:350px;">
+                            <small class="p-error" *ngIf="ofertaFormacaoForm.controls.termos.errors.required">A
+                              aprovação dos termos é
+                              obrigatório.
+                            </small>
+                          </div>
+
+                        </div>
+                      </div>
+                      <re-politica-privacidade-as-modal #politicaPrivacidade></re-politica-privacidade-as-modal>
+
+                      <div class="col-12 d-flex justify-content-md-start">
+                        <button class="btn btn-outline-danger mx-1" type="submit"
+                          (click)="novacandidatura(i)">Submeter</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

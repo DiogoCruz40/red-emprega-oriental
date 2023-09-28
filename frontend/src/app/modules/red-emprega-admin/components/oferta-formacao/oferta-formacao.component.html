@@ -1,0 +1,304 @@
+<section id="ofertas-formacao" class="ofertas-formacao">
+    <div class="container container-box">
+        <div class="m-4">
+            <h2 class="big-title d-inline">
+                Ofertas de Formação
+            </h2>
+            <button class="btn btn-outline-danger fw-bold float-end" (click)="openModalOfertaFormacao()"><i
+                    class="fas fa-plus"></i> Adicionar Oferta de Formação</button>
+            <hr class="big-title-line mb-3">
+        </div>
+        <p-toast></p-toast>
+        <div class="offset-9 px-4 mb-2 align-items-center text-end">
+            <re-search-box placeholder="Pesquisa" [wordToSearch]="searchInput" (update)="searchInput = $event"
+                class="w-100">
+            </re-search-box>
+        </div>
+        <div class="content-box">
+            <div class="card-list overflow-hidden align-items-center">
+                <div class="row no-gutters mx-3 pb-4" *ngIf="ofertaFormacaoList.length > 0 else emptyAdmins">
+                    <p-confirmDialog defaultFocus="none" rejectButtonStyleClass="p-button-outlined p-button-danger"
+                        acceptButtonStyleClass="p-button-danger"></p-confirmDialog>
+                    <div *ngFor="let oferta of ofertaFormacaoList; let i = index" class="col-12 pt-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row no-gutters">
+                                    <div class="col-8">
+                                        <h4 class="fw-bold text-left float-left"
+                                            [innerHTML]="oferta.nome | highlight: searchInput">
+                                        </h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="text-end">
+                                            <button class="btn btn-danger me-2" (click)="clickEditar(oferta)"><i
+                                                    class="fas fa-edit"></i></button>
+
+                                            <button class="btn btn-danger" (click)="clickEliminar(oferta)"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div #oferta class="row no-gutters px-3 align-items-center card-info">
+                                <div class="col-8">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Área de Formação:</span>
+                                    <span [innerHTML]="oferta.areaFormacao | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Inserido por:</span>
+                                    <span [innerHTML]="oferta.inseridoPor.nome | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-8">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Email:</span>
+                                    <span [innerHTML]="oferta.email | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Data Limite:</span>
+                                    <span
+                                        [innerHTML]="oferta.dataLimite | date: 'dd/MM/yyyy'| highlight: searchInput"><br />
+                                    </span>
+                                </div>
+                                <div class="col-8">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Local:</span>
+                                    <span [innerHTML]="oferta.local | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Contacto:</span>
+                                    <span [innerHTML]="oferta.contacto.toString() | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-8" *ngIf="oferta.emailsAEnviar">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Emails a enviar candidaturas:</span>
+                                    <span *ngIf="oferta.emailsAEnviar"
+                                        [innerHTML]="oferta.emailsAEnviar.join(', ') | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Número de Candidaturas:</span>
+                                    <span [innerHTML]="oferta.numCandidaturas?.toString() | highlight: searchInput">
+                                        <br />
+                                    </span>
+                                </div>
+                                <div #myDivResposta{{i}} id="myDivResposta{{i}}"
+                                    [ngClass]="{'ler-mais-box': oferta.lerMais}" class="transicao-resposta"
+                                    [ngStyle]="{'max-height': oferta.tamanho}">
+                                    <div class="col-12">
+                                        <span class="mt-2 mb-1 me-1 fw-bold">Observações:</span>
+                                        <span style="white-space: pre-line" [innerHTML]="oferta.observacoesAMostrar ? (oferta.observacoesAMostrar | highlight: searchInput): 'Sem Observações.'"> <br />
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="mt-2 mb-1 me-1 fw-bold">Anexos:</span>
+                                        <ng-container *ngIf="oferta.anexos?.length else semAnexos">
+                                            <span *ngFor="let anexo of oferta.anexos; let i = index">
+                                                {{anexo.fileName}}
+                                                <button class="mx-2 px-1" pButton icon="pi pi-download"
+                                                    style="font-size: 0.25rem" (click)="getAnexo(anexo._id)"></button>
+                                            </span>
+                                        </ng-container>
+                                        <ng-template #semAnexos>
+                                            Sem Anexos.
+                                        </ng-template>
+                                    </div>
+                                    <p [ngClass]="{'ler-mais' :oferta.lerMais}"
+                                        class="text-primary font-weight-bold text-center text-danger"
+                                        (click)="onLerMais(i)">
+                                        <ng-container *ngIf="oferta.lerMais">Ver mais</ng-container>
+                                        <ng-container class="ver-menos" *ngIf="!oferta.lerMais"><span
+                                                class="ver-menos">Ver menos</span></ng-container>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #emptyAdmins>
+                <div class="empty-message h-100 w-100 p-3">
+                    <span>Não foram encontradas ofertas de formação.</span>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Adicionar Administrador -->
+<p-dialog [(visible)]="modalOfertaFormacao" [style]="{width: '50vw'}" [resizable]="false" [draggable]="false"
+    [baseZIndex]="5" (onHide)="closeModalOfertaFormacao()">
+    <ng-template pTemplate="header" class="pb-2">
+        <div>
+            <h4 class="big-title mt-3 p-0">
+                Adicionar Oferta de Formação
+            </h4>
+            <hr class="big-title-line mb-3">
+        </div>
+    </ng-template>
+    <div>
+        <form [formGroup]="ofertaFormacaoForm">
+            <div class="p-fluid row mb-4">
+                <div class="col-6 p-field">
+                    <span class="p-float-label">
+                        <input formControlName="nome" name="nome" type="text" class="form-control" id="nome"
+                            [ngClass]="{'float-input-invalid ng-dirty': submittedOferta && ofertaFormacaoForm.controls.nome.invalid}"
+                            [(ngModel)]="ofertaFormacao.nome" pInputText required>
+                        <label for="nome" class="form-label">Nome*</label>
+                    </span>
+                    <span *ngIf="submittedOferta && (ofertaFormacaoForm.controls.nome.invalid)">
+                        <small class="p-error" *ngIf="ofertaFormacaoForm.controls.nome.errors.required">Nome é
+                            <strong>obrigatório</strong>
+                        </small>
+                    </span>
+                </div>
+                <div class="p-field col-6">
+                    <span class="p-float-label">
+                        <input formControlName="areaFormacao" name="areaFormacao" type="text" class="form-control"
+                            id="areaFormacao"
+                            [ngClass]="{'float-input-invalid ng-dirty': submittedOferta && ofertaFormacaoForm.controls.areaFormacao.invalid}"
+                            [(ngModel)]="ofertaFormacao.areaFormacao" pInputText required>
+                        <label for="areaFormacao" class="form-label">Área de Formação*</label>
+                    </span>
+                    <span *ngIf="submittedOferta && (ofertaFormacaoForm.controls.areaFormacao.invalid)">
+                        <small class="p-error" *ngIf="ofertaFormacaoForm.controls.areaFormacao.errors.required">Área de
+                            Formação é
+                            <strong>obrigatória</strong>
+                        </small>
+                    </span>
+                </div>
+            </div>
+            <div class="p-fluid row mb-4">
+                <div class="col-6 p-field">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">
+                            <span>+351</span>
+                        </span>
+                        <span class="p-float-label">
+                            <input formControlName="contacto" name="contacto" type="text" class="form-control"
+                                [ngClass]="{'float-input-invalid ng-dirty': submittedOferta && ofertaFormacaoForm.controls.contacto.invalid}"
+                                [(ngModel)]="ofertaFormacao.contacto" pInputText required>
+                            <label for="nome" class="form-label">Contacto*</label>
+                        </span>
+                    </div>
+                    <span *ngIf="submittedOferta && (ofertaFormacaoForm.controls.contacto.invalid)">
+                        <small class="p-error" *ngIf="ofertaFormacaoForm.controls.contacto.errors.required">Contacto
+                            é
+                            <strong>obrigatório</strong>
+                        </small>
+                    </span>
+                </div>
+                <div class="col-6 p-field">
+                    <span class="p-float-label">
+                        <input formControlName="email" name="email" type="text" class="form-control" id="email"
+                            [ngClass]="{'float-input-invalid ng-dirty': submittedOferta && ofertaFormacaoForm.controls.email.invalid}"
+                            [(ngModel)]="ofertaFormacao.email" pInputText required>
+                        <label for="nome" class="form-label">Email*</label>
+                    </span>
+                    <span *ngIf="submittedOferta && ofertaFormacaoForm.controls.email.invalid">
+                        <small class="p-error" *ngIf="ofertaFormacaoForm.controls.email.errors.required">Email é
+                            <strong>obrigatório</strong> </small>
+                        <small class="p-error" *ngIf="ofertaFormacaoForm.controls.email.errors.pattern">Email
+                            <strong>inválido</strong>. Ex:
+                            exemplo@exemplo.pt</small>
+                    </span>
+                </div>
+            </div>
+            <div class="p-fluid row mb-4">
+                <div class="col-6 p-field">
+                    <span class="p-float-label">
+                        <input formControlName="horario" name="horario" type="text" class="form-control" id="horario"
+                            [ngClass]="{'float-input-invalid ng-dirty': submittedOferta && ofertaFormacaoForm.controls.horario.invalid}"
+                            [(ngModel)]="ofertaFormacao.horario" pInputText required>
+                        <label for="nome" class="form-label">Horário*</label>
+                    </span>
+                    <span *ngIf="submittedOferta && ofertaFormacaoForm.controls.horario.invalid">
+                        <small class="p-error" *ngIf="ofertaFormacaoForm.controls.horario.errors.required">Horário é
+                            <strong>obrigatório</strong> </small>
+                    </span>
+                </div>
+                <div class="col-6 p-field">
+                    <span class="p-float-label">
+                        <p-calendar formControlName="dataLimite" id="dataLimite" type="text" dataType="string"
+                            [ngClass]="{'float-input-invalid ng-dirty': submittedOferta && ofertaFormacaoForm.controls.dataLimite.invalid}"
+                            [(ngModel)]="ofertaFormacao.dataLimite" [showIcon]="true" inputId="icon" appendTo="body"
+                            dateFormat="dd/mm/yy">
+                        </p-calendar>
+                        <label for="nome" class="form-label">Data Limite*</label>
+                    </span>
+                    <span *ngIf="submittedOferta && ofertaFormacaoForm.controls.dataLimite.invalid">
+                        <small class="p-error" *ngIf="ofertaFormacaoForm.controls.dataLimite.errors.required">Data
+                            limite
+                            é
+                            <strong>obrigatória</strong> </small>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group mb-4">
+                <span class="p-float-label">
+                    <input formControlName="local" name="local" type="text" class="form-control" id="local"
+                        [ngClass]="{'float-input-invalid ng-dirty': submittedOferta && ofertaFormacaoForm.controls.local.invalid}"
+                        [(ngModel)]="ofertaFormacao.local" pInputText required>
+                    <label for="local" class="form-label">Local*</label>
+                </span>
+                <span *ngIf="submittedOferta && ofertaFormacaoForm.controls.local.invalid">
+                    <small class="p-error" *ngIf="ofertaFormacaoForm.controls.local.errors.required">Local é
+                        <strong>obrigatório</strong> </small>
+                </span>
+            </div>
+            <div class="p-fluid row">
+                <div class="p-field p-col-12 p-md-12 mb-4">
+                    <span class="p-float-label">
+                        <p-chips formControlName="emailsAEnviar" name="emailsAEnviar" inputId="emailsAEnviar"
+                            id="emailsAEnviar" [addOnTab]="true" [addOnBlur]="true"
+                            [ngClass]="{'p-inputwrapper-focus': ofertaFormacao.emailsAEnviar?.length}"
+                            [(ngModel)]="ofertaFormacao.emailsAEnviar" separator="," required></p-chips>
+                        <label for="emailsAEnviar" class="enviar-candidaturas">Emails a enviar candidaturas*</label>
+                    </span>
+                    <span *ngIf="submittedOferta && ofertaFormacaoForm.controls.emailsAEnviar.invalid">
+                        <small class="p-error" *ngIf="ofertaFormacaoForm.controls.emailsAEnviar.errors.required">Emails
+                            a enviar
+                            candidaturas é
+                            <strong>obrigatório</strong> </small>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group mb-4">
+                <span class="p-float-label">
+                    <textarea formControlName="observacoes" id="observacoes" type="text" pInputText rows="4"
+                        [ngClass]="{'float-input-invalid ng-dirty': submittedOferta && ofertaFormacaoForm.controls.observacoes.invalid}"
+                        autoResize="autoResize" [(ngModel)]="ofertaFormacao.observacoes"
+                        class="form-control"></textarea>
+                    <label for="observacoes" class="form-label">Observações</label>
+                </span>
+            </div>
+            <div class="col-md-12">
+                <div class="col-12 p-0">
+                    <label class="font-weight-bold">Anexar Documentos (Máximo 2 anexos e 16Mb cada)</label>
+                </div>
+                <div class="col-12 pt-2">
+                    <div class="d-flex align-items-center">
+                        <span for="file-upload" class="p-button p-component p-fileupload-choose p-ripple me-2"
+                            (click)="fileUpload.click()">
+                            <span class="pi pi-plus p-button-icon p-button-icon-left"></span>
+                            <span class="p-button-label">Adicionar Ficheiro</span>
+                        </span>
+                        <ng-container *ngIf="ofertaFormacao.files?.length">
+                            <span *ngFor="let files of ofertaFormacao.files; let i = index">
+                                {{files.name}}
+                                <button class="mx-2" pButton icon="pi pi-times" (click)="removeFile(i)"></button>
+                            </span>
+                        </ng-container>
+                        <input type="file" accept=".doc,.docx,.pdf" (change)="handleFileInput($event)"
+                            multiple="multiple" #fileUpload />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p-footer class="pt-1">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeModalOfertaFormacao()">Cancelar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="guardarModalOfertaFormacao()">Guardar</button>
+    </p-footer>
+</p-dialog>

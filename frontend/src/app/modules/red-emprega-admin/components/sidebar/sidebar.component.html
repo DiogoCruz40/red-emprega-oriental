@@ -1,0 +1,52 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="'side'" [opened]="(isHandset$ | async) === false">
+    <mat-nav-list routerLinkActive="active">
+      <a href="./admin" routerLink="./admin">
+        <mat-toolbar><img src="../../../assets/img/logos/workipedia.png" alt="" class="img-fluid" draggable="false" />
+        </mat-toolbar>
+
+        <hr>
+      </a>
+      <a mat-list-item href="./admin" class="nav-link" routerLink="./admin" draggable="false">
+        <span class="p-menuitem-icon pi pi-home me-1"></span>
+        <span class="p-menuitem-text">Inicio</span>
+      </a>
+      <a mat-list-item href="./admin/gestao-admins" class="nav-link" *ngIf="isLoggedIn && isAdminOmni"
+        routerLink="./admin/gestao-admins" draggable="false">
+        <span class="p-menuitem-icon pi pi-users me-1"></span>
+        <span class="p-menuitem-text">Gestão de Administradores</span>
+      </a>
+      <p-menu [model]="items" styleClass="border-0 nav-link"></p-menu>
+      <a mat-list-item href="#" class="nav-link" *ngIf="isLoggedIn" draggable="false">
+        <span class="p-menuitem-icon pi pi-arrow-circle-left me-1"></span>
+        <span class="p-menuitem-text">Voltar a workipedia.pt</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon" draggable="false" style="color:black">menu</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu-admin" class="ms-auto">
+        <mat-icon style="color: black; font-size: 2.3rem;">account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+
+        <span mat-menu-item disabled style="color: black; text-align: center; font-size: 1.2rem;">{{nome}}</span>
+
+        <button mat-menu-item href="/perfil" class="nav-link" style="color: black;" routerLink="./admin/perfil">
+          <mat-icon>settings</mat-icon>
+          <span>Definições</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>clear</mat-icon>
+          <span>Terminar Sessão</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

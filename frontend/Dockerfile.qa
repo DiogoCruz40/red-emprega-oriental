@@ -1,0 +1,27 @@
+# Stage 1: Compile and Build angular codebase
+
+# Use official node image as the base image
+FROM node:14.15-alpine as build
+
+RUN apk update && \
+    apk add gettext
+
+
+### STAGE 1: Build ###
+WORKDIR /usr/src/app
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+ #RUN envsubst < ./src/environments/environment.template.ts > ./src/environments/environment.prod.ts
+
+### STAGE 2: Run ###
+FROM nginx:1.17.1-alpine
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY cloudflare.crt /etc/ssl/certs/cloudflare.crt
+COPY cert.pem /etc/ssl/certs/cert.pem
+COPY key.pem /etc/ssl/private/key.pem
+COPY --from=build /usr/src/app/dist/red-emprega-oriental /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]

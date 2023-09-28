@@ -1,0 +1,74 @@
+<div class="col-md-12">
+	<div class="card card-container">
+		<img id="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="profile-img-card" />
+		<form *ngIf="!isSuccessful" name="form" #f="ngForm" [formGroup]="registerForm">
+			<div class="p-fluid row mb-4">
+				<div class="col-12 p-field">
+					<span class="p-float-label">
+						<input formControlName="nome" name="nome" type="text" class="form-control" id="nome"
+							[ngClass]="{'float-input-invalid ng-dirty': submitted && registerForm.controls.nome.invalid}"
+							[(ngModel)]="form.nome" pInputText required>
+						<label for="nome" class="form-label">Nome*</label>
+					</span>
+					<span *ngIf="submitted && (registerForm.controls.nome.invalid)">
+						<small class="p-error" *ngIf="registerForm.controls.nome.errors.required">Nome é
+							<strong>obrigatório</strong>
+						</small>
+					</span>
+				</div>
+			</div>
+			<div class="p-fluid row mb-4">
+				<div class="p-field col-12">
+					<span class="p-float-label">
+						<input formControlName="email" name="email" type="text" class="form-control" id="email"
+							[ngClass]="{'float-input-invalid ng-dirty': submitted && registerForm.controls.email.invalid}"
+							[(ngModel)]="form.email" pInputText required>
+						<label for="email" class="form-label">Email*</label>
+					</span>
+					<span *ngIf="submitted && registerForm.controls.email.invalid">
+						<small class="p-error" *ngIf="registerForm.controls.email.errors.required">Email é
+							<strong>obrigatório</strong> </small>
+						<small class="p-error" *ngIf="registerForm.controls.email.errors.pattern">Email
+							<strong>inválido</strong>. Ex:
+							exemplo@exemplo.pt</small>
+					</span>
+				</div>
+			</div>
+			<div class="p-fluid row mb-2">
+				<div class="p-field col-12">
+					<span class="p-float-label">
+						<input formControlName="password" name="password" type="password" class="form-control" id="password"
+							[ngClass]="{'float-input-invalid ng-dirty': submitted && registerForm.controls.password.invalid}"
+							[(ngModel)]="form.password" pInputText required>
+						<label for="nome" class="form-label">Palavra-passe*</label>
+					</span>
+					<small *ngIf="!submitted || (registerForm.controls.password.valid)" id="username1-help">Pelo menos 8 caracteres, 1 número, 1 letra grande, 1 letra pequena e 1 carácter especial</small>
+					<span *ngIf="submitted && registerForm.controls.password.invalid">
+						<small class="p-error" *ngIf="registerForm.controls.password.errors.required">Palavra-passe é
+							<strong>obrigatória</strong> </small>
+						<small class="p-error" *ngIf="registerForm.controls.password.errors.pattern">Palavra-passe
+							<strong>inválida</strong>. Tem de ter pelo
+							menos 8 caracteres, 1 número, 1 letra grande, 1 letra pequena e 1 carácter especial</small>
+					</span>
+				</div>
+			</div>
+			
+			<div class="form-group pt-2">
+				<button type="submit" class="btn btn-outline-danger" (click)="onSubmit()">Registar</button>
+			</div>
+
+			<div class="form-group pt-2">
+				<div class="alert alert-warning" *ngIf="submitted && isSignUpFailed">
+					{{ errorMessage }}
+				</div>
+				<div class="alert alert-success" *ngIf="submitted && isSuccessful">
+					{{ errorMessage }}
+				</div>
+			</div>
+		</form>
+
+		<div class="alert alert-success" *ngIf="isSuccessful">
+			O seu registo foi feito com sucesso! Já pode iniciar sessão
+		</div>
+	</div>
+</div>

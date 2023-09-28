@@ -1,0 +1,160 @@
+/*--------------------------------------------------------------
+# Reutilizavel
+--------------------------------------------------------------*/
+
+@use '../../../../../styles' as *;
+
+@mixin imgresponsive(
+  $display: inline-block,
+  $pos: relative,
+  $max-width: 500px,
+  $max-height: 500px,
+  $transition: 0.35s ease-in-out,
+  $transformonhover: scale(1.05),
+  $boxshadowonhover: 0px 0px 15px 0px rgba(0, 0, 0, 0.4)
+) {
+  display: $display;
+  position: $pos;
+  max-height: $max-height;
+  max-width: $max-width;
+  transition: $transition;
+  &:hover {
+    transform: $transformonhover;
+    -webkit-box-shadow: $boxshadowonhover;
+    -moz-box-shadow: $boxshadowonhover;
+    box-shadow: $boxshadowonhover;
+  }
+  .overlay {
+    @include overlay();
+  }
+}
+
+@mixin overlay(
+  $position: absolute,
+  $top: 0,
+  $bottom: 0,
+  $left: 0,
+  $right: 0,
+  $opacity: 0,
+  $height: 100%,
+  $width: 100%,
+  $transition: 0.35s,
+  $background-color: rgba(64, 64, 64, 0.5),
+  $opacityonhover: 0.2
+) {
+  position: $position;
+  top: $top;
+  bottom: $bottom;
+  left: $left;
+  right: $right;
+  opacity: $opacity;
+  width: $width;
+  height: $height;
+  transition: $transition;
+  background-color: $background-color;
+
+  &:hover,
+  &:focus {
+    //  opacity: $opacityonhover;
+    $background-color: rgba(64, 64, 64, 0.5);
+    opacity: 1;
+  }
+}
+
+/*--------------------------------------------------------------
+# QUem somos
+--------------------------------------------------------------*/
+.img-quem-somos {
+  @include imgresponsive();
+}
+
+/*--------------------------------------------------------------
+# Missao
+--------------------------------------------------------------*/
+.img-our-mission {
+  @include imgresponsive();
+}
+
+/*--------------------------------------------------------------
+# Rede
+--------------------------------------------------------------*/
+.patrocinio-item {
+  .patrocinio-item-content {
+    // border: 1px solid var(--surface-d);
+    border-radius: 3px;
+    margin: 0.3rem;
+    text-align: center;
+    padding: 2rem 0.25rem;
+    //  width: 90%;
+  }
+
+  .patrocinio-image {
+    width: 100%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+}
+.overlay {
+  @include overlay();
+}
+
+.overlay-center {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.icon-rounded {
+  display: block;
+  background: #e03a3c;
+  color: #fff;
+  height: 50px;
+  line-height: 50px;
+  width: 50px;
+  font-size: 18px;
+  border-radius: 100px;
+  transition: 300ms;
+}
+.link-button {
+  display: table;
+}
+
+#update {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.pi {
+  font-family: "primeicons" !important;
+}
+.custom-marker {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+:host {
+  ::ng-deep .p-card .p-card-title {
+    color: red !important;
+  }
+  ::ng-deep .p-card-body{
+    min-width: 222.406px !important;
+  }
+}

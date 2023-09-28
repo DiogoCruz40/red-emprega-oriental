@@ -1,0 +1,13 @@
+<section class="unsub" id="unsub">
+  <div *ngIf="unsub; else errorunsub" class="text-center">
+    <img src="../../../../../assets/img/checked.svg" class="img-fluid pb-5" style="max-width: 150px;" draggable="false">
+    <h2> A sua subscrição foi cancelada com sucesso.</h2>
+  </div>
+
+  <ng-template #errorunsub>
+    <div class="text-center">
+    <img src="../../../../../assets/img/remove.svg" class="img-fluid pb-5" style="max-width: 150px;" draggable="false">
+    <h2>Algo correu mal.</h2>
+  </div>
+</ng-template>
+</section>

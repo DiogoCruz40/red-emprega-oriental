@@ -1,0 +1,72 @@
+@use "../../../../../styles/index" as *;
+
+.content-box .card-list {
+    .card {
+        background-color: $light;
+
+        .card-header {
+            font-weight: bold;
+            border-bottom: none;
+        }
+    }
+    .novo {
+        cursor: pointer;
+        .ai {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+:host ::ng-deep {
+    .airc-table-header {
+        background: white !important;
+    }
+}
+
+.container-box {
+    overflow: auto;
+    .content-box {
+        height: calc(100% - 140px);
+    }
+}
+
+section {
+    padding: 30px 0;
+}
+
+.ler-mais-box {
+    max-height: 20px;
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.ler-mais-box .ler-mais {
+    position: absolute;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    width: 100%;
+    text-align: bottom;
+    margin: 0;
+    padding-top: 70px;
+    background-image: linear-gradient(to bottom, transparent, white);
+}
+
+.ver-menos {
+    cursor: pointer;
+    width: 100%;
+    background-image: linear-gradient(to bottom, transparent, white);
+}
+
+.transicao-resposta {
+    transition: max-height 1s;
+    overflow: hidden;
+    &.ler-mais-box {
+        max-height: 20px;
+    }
+}
+
+input[type="file"] {
+    display: none;
+}

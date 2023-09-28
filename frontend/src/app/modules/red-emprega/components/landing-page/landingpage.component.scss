@@ -1,0 +1,121 @@
+@use '../../../../../styles/index' as *;
+
+/*--------------------------------------------------------------
+# Reutilizavel
+--------------------------------------------------------------*/
+
+@mixin imgresponsive(
+  $display: inline-block,
+  $pos: relative,
+  $max-width: 500px,
+  $max-height: 500px,
+  $transition: 0.35s ease-in-out,
+  $transformonhover: scale(1.05),
+  $boxshadowonhover: 0px 0px 15px 0px rgba(0, 0, 0, 0.4)
+) {
+  display: $display;
+  position: $pos;
+  max-height: $max-height;
+  max-width: $max-width;
+  transition: $transition;
+  &:hover {
+    transform: $transformonhover;
+    -webkit-box-shadow: $boxshadowonhover;
+    -moz-box-shadow: $boxshadowonhover;
+    box-shadow: $boxshadowonhover;
+  }
+  .overlay {
+    @include overlay();
+  }
+}
+
+video {
+  width: 100vw;
+  height: 80vh;
+  object-fit: cover;
+
+}
+@mixin overlay(
+  $position: absolute,
+  $top: 0,
+  $bottom: 0,
+  $left: 0,
+  $right: 0,
+  $opacity: 0,
+  $height: 100%,
+  $width: 100%,
+  $transition: 0.35s,
+  $background-color: black,
+  $opacityonhover: 0.2
+) {
+  position: $position;
+  top: $top;
+  bottom: $bottom;
+  left: $left;
+  right: $right;
+  opacity: $opacity;
+  width: $width;
+  height: $height;
+  transition: $transition;
+  background-color: $background-color;
+
+  &:hover,
+  &:focus {
+    opacity: $opacityonhover;
+  }
+}
+
+/*--------------------------------------------------------------
+# QUem somos
+--------------------------------------------------------------*/
+.img-quem-somos {
+  @include imgresponsive();
+}
+
+/*--------------------------------------------------------------
+# Missao
+--------------------------------------------------------------*/
+.img-our-mission {
+  @include imgresponsive();
+}
+
+
+
+.ParallaxVideo .carousel-item{ 
+  padding-bottom: 50px;
+  padding-top: 50px; 
+  min-width: 100%;
+  position: fixed;
+  top:0;
+  z-index: -999;
+  }
+  .ParallaxVideo h1 {
+    color: #fff;
+    font-size: 76px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .ParallaxContent {
+    background: none repeat scroll 0 0 white;
+    padding: 42px 0;
+  } 
+  .ParallaxContent h2{
+  }
+
+
+  .custom-marker {
+    display: flex;
+    width: 4rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    border-radius: 10%;
+    z-index: 1;
+  }
+
+  .pi {
+    font-family: "primeicons" !important;
+  }

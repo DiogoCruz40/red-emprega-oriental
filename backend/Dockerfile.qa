@@ -1,0 +1,19 @@
+FROM node:12.7-alpine AS build
+# Create app directory
+WORKDIR /app
+ 
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+ADD package*.json ./
+ 
+# Install any needed packages
+RUN npm update 
+RUN npm install
+ 
+# Bundle app source
+COPY . /app
+
+EXPOSE 8443
+ 
+CMD [ "node", "server.js" ]

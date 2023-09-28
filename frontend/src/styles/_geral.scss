@@ -1,0 +1,330 @@
+@use "./colors" as *;
+
+/*--------------------------------------------------------------
+# Inicio Sections
+--------------------------------------------------------------*/
+section {
+  padding: 60px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.section-title {
+  text-align: center;
+  padding-bottom: 30px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.section-title h2::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: #e03a3c;
+  bottom: 0;
+  left: calc(50% - 25px);
+}
+
+.section-title p {
+  margin-bottom: 0;
+}
+
+/*--------------------------------------------------------------
+# Fim Sections
+--------------------------------------------------------------*/
+
+/* Content por baixo do header - FIX */
+
+/* fixed footer */
+#content-wrap {
+  min-height: calc(100vh - 524.4px);
+}
+
+.bg-section2 {
+  background-color: #d4d4b8;
+}
+
+* {
+  font-family: "HK Grotesk";
+}
+
+i.fas {
+  font-family: "Font Awesome\ 5 Free" !important;
+}
+
+/** BIG TITLES **/
+h2.big-title {
+  margin: 0;
+}
+hr.big-title-line {
+  opacity: 1;
+  width: 50px;
+  border: 1px solid red;
+  margin: 0;
+  background-color: red;
+}
+
+/** CONTAINER BOX **/
+//Content Box
+
+$container-footer-height: 46px !default;
+
+.container-box {
+  height: calc(100vh - 140px);
+  background: #ffffff;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  border-radius: 6px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.06);
+
+  /**&:not(.tab) {
+      height: calc(100vh - 105px);
+    }**/
+
+  &.no-footer {
+    > .content-box,
+    > * > .content-box {
+      height: 100%;
+    }
+  }
+
+  airc-table-header.expanded ~ .content-box {
+    margin-top: 56px;
+  }
+
+  > .content-box,
+  > * > .content-box {
+    height: calc(100% - #{$container-footer-height});
+    overflow: auto;
+  }
+
+  > .container-footer,
+  > * > .container-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: transparent;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.16);
+    pointer-events: all;
+    height: $container-footer-height;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    line-height: 0.875rem;
+    padding: 0.571em 1.5em;
+    color: $light;
+
+    &.paginator {
+      padding-right: 500px;
+    }
+
+    div.action-btns {
+      pointer-events: all;
+    }
+
+    div.ui-paginator {
+      padding-right: 180px;
+    }
+
+    div.airc-summary-counter {
+      position: absolute;
+      align-self: center;
+      top: 50%;
+      right: 0;
+      padding-right: 19px;
+      transform: translateY(-50%);
+      font-weight: bold;
+      text-align: right;
+    }
+  }
+}
+
+.p-dialog .p-dialog-footer {
+  padding-top: 1.5rem;
+  border-top: 1px solid #f1f1f1;
+}
+.p-dialog .p-dialog-header {
+  padding: 0.75rem 1.5rem 0.75rem 1.5rem;
+  border-bottom: 1px solid #f1f1f1;
+}
+.p-dialog .p-dialog-content {
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+}
+.p-button {
+  color: #dc3545;
+  background: #fff;
+  border: 1px solid #dc3545;
+}
+.p-fileupload-buttonbar {
+  border: none !important;
+  background: none !important;
+  padding: 0 !important;
+}
+
+.p-fileupload-content .p-progressbar {
+  background: none !important;
+  height: 0 !important;
+}
+.p-fileupload .p-fileupload-content {
+  border: none !important;
+  background: none !important;
+  padding: 0 !important;
+}
+.p-fileupload-row > div:last-of-type {
+  margin-left: 40px;
+}
+.p-fileupload-row > div:first-of-type {
+  display: none !important;
+}
+.p-fileupload-filename {
+  width: 100% !important;
+}
+.p-fileupload .p-fileupload-buttonbar .p-button.p-fileupload-choose.p-focus {
+  box-shadow: 0 0 0 0.2rem #dc3545;
+}
+.p-button:enabled:hover,
+.p-button:enabled:active,
+.p-fileupload-choose:not(.p-disabled):hover,
+.p-fileupload-choose:not(.p-disabled):active {
+  color: #fff;
+  background: #dc3545;
+  border: 1px solid #dc3545;
+  box-shadow: none;
+  outline: none;
+}
+
+.p-selectbutton .p-button.p-highlight {
+  background: #dc3545;
+  border: 1px solid #dc3545;
+  box-shadow: none;
+  outline: none;
+}
+
+.p-selectbutton .p-button.p-highlight:hover,
+.p-selectbutton .p-button.p-highlight:active {
+  color: #fff;
+  background: #a02733;
+  border: 1px solid #a02733;
+  box-shadow: none;
+  outline: none;
+}
+
+.p-carousel .p-carousel-indicators .p-carousel-indicator.p-highlight button {
+  background-color: $red;
+}
+
+$aspect-ratios: (
+  "1x1": 100%,
+  "4x3": calc(3 / 4 * 100%),
+  "16x9": calc(9 / 16 * 100%),
+  "21x9": calc(9 / 24 * 100%),
+  "24x9": calc(9 / 24 * 100%),
+);
+
+/*--------------------------------------------------------------
+# Scroll
+--------------------------------------------------------------*/
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #585858;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(75, 75, 75);
+}
+
+/*--------------------------------------------------------------
+# highlight
+--------------------------------------------------------------*/
+
+.highlight {
+  background-color: yellow;
+}
+
+/*--------------------------------------------------------------
+# mat OVERRIDE
+--------------------------------------------------------------*/
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: white !important;
+}
+
+.form-control:focus {
+  border-color: none !important;
+  box-shadow: none !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: red;
+}
+
+textarea {
+  resize: none;
+}
+
+.pi {
+  font-family: "primeicons" !important;
+}
+
+/*--------------------------------------------------------------
+# VER MAIS
+--------------------------------------------------------------*/
+.ler-mais-box {
+  max-height: 20px;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 10px;
+}
+
+.ler-mais-box .ler-mais {
+  position: absolute;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  width: 100%;
+  text-align: bottom;
+  margin: 0;
+  padding-top: 70px;
+  background-image: linear-gradient(to bottom, transparent, white);
+}
+
+.ver-menos {
+  cursor: pointer;
+  width: 100%;
+  background-image: linear-gradient(to bottom, transparent, white);
+}
+
+.transicao-resposta {
+  transition: max-height 1s;
+  overflow: hidden;
+  &.ler-mais-box {
+      max-height: 20px;
+  }
+}

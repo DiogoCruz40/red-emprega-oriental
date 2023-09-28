@@ -1,0 +1,52 @@
+<section class="page-section" id="nossa-missao">
+  <div data-aos="fade-up">
+    <p-timeline [value]="quemSomos" [align]="alignTimeline">
+      <ng-template pTemplate="marker" let-event>
+        <span class="custom-marker p-shadow-2" [style.backgroundColor]="event.color">
+          <i [ngClass]="event.icon"></i>
+        </span>
+      </ng-template>
+      <ng-template pTemplate="content" let-event>
+        <p-card [header]="event.header" [subheader]="event.date">
+          <div style="white-space: pre-line">{{event.text}}</div>
+
+        </p-card>
+      </ng-template>
+    </p-timeline>
+  </div>
+</section>
+<!------------------------------------------------------------------------------------->
+<!---------------------------------------Rede------------------------------->
+<section class="section section-lg section-nucleo-icons pb-250 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h1 data-aos="fade-up" style="color: red">Entidades Dinamizadoras</h1>
+      </div>
+    </div>
+    <p-carousel [value]="redeList" [numVisible]="5" [numScroll]="3" [circular]="true" [autoplayInterval]="5000">
+      <ng-template let-rede pTemplate="item">
+        <div class="patrocinio-item">
+          <div class="patrocinio-item-content">
+            <div class="col-12 mb-2 img-quem-somos">
+              <img class="img-fluid" src="{{rede.src}}" class="d-block w-100" alt="imagem {{rede.nome}}"
+                class="patrocinio-image">
+              <div class="overlay overlay-center">
+                <div class="link-button">
+                  <a target="_blank" rel="noopener noreferrer" href="{{rede.link}}" id="update" style="text-decoration: none;">
+                    <span class="icon-rounded">
+                      <i class="fas fa-link"></i>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              {{rede.nome}}
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+</section>

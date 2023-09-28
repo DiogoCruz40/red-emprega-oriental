@@ -1,0 +1,139 @@
+<p-toast></p-toast>
+<div class="col-md-12">
+	<div class="card card-container">
+		<div class="container" *ngIf="currentUser; else loggedOut">
+			<header class="jumbotron">
+				<h5>
+					Bem-vindo <strong>{{ currentUser.nome }}.</strong>
+				</h5>
+			</header>
+			<p>
+				<strong>Email:</strong>
+				{{ currentUser.email }}
+			</p>
+
+			<div class="card-buttons text-center">
+				<button type="button" class="btn btn-outline-danger mt-4 mx-4"
+					(click)="openModal(alteracaoNomeEnum.NOME)">
+					Alterar Nome
+				</button>
+				<button type="button" class="btn btn-outline-danger mt-4"
+					(click)="openModal(alteracaoNomeEnum.PASSWORD)">
+					Alterar Palavra-Passe
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<ng-template #loggedOut>
+	Por favor inicia sessão.
+</ng-template>
+<!-- Modal Nome -->
+<p-dialog [(visible)]="modalNome" [style]="{width: '30vw'}" [resizable]="false" [draggable]="false" [baseZIndex]="5"
+	(onHide)="closeModal()">
+	<ng-template pTemplate="header" class="pb-2">
+		<div>
+			<h4 class="big-title mt-3 p-0">
+				Alterar Nome
+			</h4>
+			<hr class="big-title-line mb-3">
+		</div>
+	</ng-template>
+	<form [formGroup]="nomeForm">
+		<div class="p-fluid row mb-4">
+			<div class="col-12 p-field">
+				<span class="p-float-label">
+					<input formControlName="nome" name="nome" type="text" class="form-control" id="nome"
+						[ngClass]="{'float-input-invalid ng-dirty': submitted && nomeForm.controls.nome.invalid}"
+						[(ngModel)]="nomeAlterar" pInputText required>
+					<label for="nome" class="form-label">Nome*</label>
+				</span>
+				<span *ngIf="submitted && (nomeForm.controls.nome.invalid)">
+					<small class="p-error" *ngIf="nomeForm.controls.nome.errors.required">Nome é
+						<strong>obrigatório</strong>
+					</small>
+				</span>
+			</div>
+		</div>
+	</form>
+	<p-footer class="pt-1">
+		<button type="button" class="btn btn-outline-secondary" (click)="closeModal()">Cancelar</button>
+		<button type="button" class="btn btn-outline-danger" (click)="guardarNome()">Guardar</button>
+	</p-footer>
+</p-dialog>
+
+
+<!-- Modal Palavra-Passe -->
+<p-dialog [(visible)]="modalPassword" [style]="{width: '30vw'}" [resizable]="false" [draggable]="false" [baseZIndex]="5"
+	(onHide)="closeModal()">
+	<ng-template pTemplate="header" class="pb-2">
+		<div>
+			<h4 class="big-title mt-3 p-0">
+				Alterar Palavra-passe
+			</h4>
+			<hr class="big-title-line mb-3">
+		</div>
+	</ng-template>
+	<form [formGroup]="passwordForm" novalidate>
+		<div class="p-fluid row mb-4">
+			<div class="col-12 p-field">
+				<span class="p-float-label">
+					<input formControlName="currentPassword" name="currentPassword" type="password"
+						id="currentPassword"
+						pInputText>
+					<label for="currentPassword" class="form-label">Palavra-passe atual*</label>
+				</span>
+				<span *ngIf="submitted && (passwordForm.controls.currentPassword.invalid)">
+					<small class="p-error" *ngIf="passwordForm.controls.currentPassword.errors.required">Palavra-passe atual é
+						<strong>obrigatória</strong>
+					</small>
+				</span>
+			</div>
+		</div>
+		<div class="p-fluid row mb-4">
+			<div class="col-12 p-field">
+				<span class="p-float-label">
+					<input formControlName="newPassword" name="newPassword" type="password" class="form-control"
+						id="newPassword"
+						[ngClass]="{'float-input-invalid ng-dirty': submitted && passwordForm.controls.newPassword.invalid}"
+						pInputText>
+					<label for="newPassword" class="form-label">Nova palavra-passe*</label>
+				</span>
+				<small *ngIf="!submitted || (passwordForm.controls.newPassword.valid)" id="username1-help">Pelo menos 8 caracteres, 1 letra grande, 1 letra pequena e 1 carácter especial</small>
+				<span *ngIf="submitted && (passwordForm.controls.newPassword.invalid)">
+					<small class="p-error" *ngIf="passwordForm.controls.newPassword.errors.required">Nova palavra-passe é
+						<strong>obrigatória</strong>
+					</small>
+					<small class="p-error" *ngIf="passwordForm.controls.newPassword.errors.pattern">Palavra-passe <strong>obrigatória.</strong> Tem de ter pelo
+						menos 8 caracteres, 1 letra grande, 1 letra pequena e 1 carácter especial
+					</small>
+				</span>
+			</div>
+		</div>
+		<div class="p-fluid row mb-4">
+			<div class="col-12 p-field">
+				<span class="p-float-label">
+					<input formControlName="confirmNewPassword" name="confirmNewPassword" type="password" class="form-control"
+						id="confirmNewPassword"
+						[ngClass]="{'float-input-invalid ng-dirty': submitted && passwordForm.controls.confirmNewPassword.invalid}"
+						pInputText required>
+					<label for="confirmNewPassword" class="form-label">Nova palavra-passe*</label>
+				</span>
+				<span *ngIf="submitted && (passwordForm.controls.confirmNewPassword.invalid || passwordForm.errors)">
+					<small class="p-error" *ngIf="passwordForm.controls.confirmNewPassword.errors?.required else validation">Confirmar nova palavra-passe é
+						<strong>obrigatória</strong>
+					</small>
+					<ng-template #validation>
+					<small class="p-error" *ngIf="passwordForm.errors?.confirmedValidator"> Palavra-passe e
+						confirmação de palavra-passe não são iguais.
+					</small>
+				</ng-template>
+				</span>
+			</div>
+		</div>
+	</form>
+	<p-footer class="pt-1">
+		<button type="button" class="btn btn-outline-secondary" (click)="closeModal()">Cancelar</button>
+		<button type="button" class="btn btn-outline-danger" (click)="guardarPassword()">Guardar</button>
+	</p-footer>
+</p-dialog>

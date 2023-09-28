@@ -1,0 +1,184 @@
+<section id="oferta-emprego-arquivo" class="oferta-emprego-arquivo">
+    <div class="container container-box">
+        <div class="m-4">
+            <h2 class="big-title d-inline">
+                Ofertas de Emprego Expiradas
+            </h2>
+            <p-toast></p-toast>
+            <hr class="big-title-line mb-3">
+        </div>
+        <div class="offset-9 px-4 mb-2 align-items-center text-end">
+            <re-search-box placeholder="Pesquisa" [wordToSearch]="searchInput" (update)="searchInput = $event"
+                class="w-100">
+            </re-search-box>
+        </div>
+        <div class="content-box">
+            <div class="card-list overflow-hidden align-items-center">
+                <div class="row no-gutters mx-3 pb-4" *ngIf="ofertaEmpregoList.length > 0 else emptyAdmins">
+                    <p-confirmDialog defaultFocus="none" rejectButtonStyleClass="p-button-outlined p-button-danger"
+                        acceptButtonStyleClass="p-button-danger"></p-confirmDialog>
+                    <div *ngFor="let oferta of ofertaEmpregoList; let i = index" class="col-12 pt-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row no-gutters">
+                                    <div class="col-8">
+                                        <h4 class="fw-bold text-left float-left"
+                                            [innerHTML]="oferta.nome | highlight: searchInput">
+                                        </h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="text-end">
+                                            <button class="btn btn-danger me-2" (click)="clickDesarquivar(oferta)"><i
+                                                    class="fas fa-sign-out-alt"></i> Renovar</button>
+                                            <button class="btn btn-danger" (click)="clickEliminar(oferta)"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div #oferta class="row no-gutters px-3 align-items-center card-info">
+                                <div class="col-8">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Função:</span>
+                                    <span [innerHTML]="oferta.funcao | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Inserido por:</span>
+                                    <span [innerHTML]="oferta.inseridoPor.nome | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-8">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Email:</span>
+                                    <span [innerHTML]="oferta.email | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Data Limite:</span>
+                                    <span
+                                        [innerHTML]="oferta.dataLimite | date: 'dd/MM/yyyy'| highlight: searchInput"><br />
+                                    </span>
+                                </div>
+                                <div class="col-8">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Local:</span>
+                                    <span [innerHTML]="oferta.local | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Contacto:</span>
+                                    <span [innerHTML]="oferta.contacto?.toString() | highlight: searchInput"> <br />
+                                    </span>
+                                </div>
+                                <div class="col-8">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Obrigatório CV:</span>
+                                    <span [innerHTML]="oferta.curriculo ? 'Sim' : 'Não' | highlight: searchInput">€
+                                        <br />
+                                    </span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Remuneração:</span>
+                                    <span [innerHTML]="oferta.remuneracao | highlight: searchInput"> <br />
+                                    </span>€
+                                </div>
+                                <div class="col-12">
+                                    <span class="mt-2 mb-1 me-1 fw-bold">Número de Candidaturas:</span>
+                                    <span
+                                        [innerHTML]="oferta.numCandidaturas?.toString() | highlight: searchInput"><br />
+                                    </span>
+                                </div>
+                                <div #myDivResposta{{i}} id="myDivResposta{{i}}"
+                                    [ngClass]="{'ler-mais-box': oferta.lerMais}" class="transicao-resposta"
+                                    [ngStyle]="{'max-height': oferta.tamanho}">
+                                    <div class="col-12">
+                                        <span class="mt-2 mb-1 me-1 fw-bold">Outras Regalias:</span>
+                                        <span style="white-space: pre-line"
+                                            [innerHTML]="oferta.outrasRegalias | highlight: searchInput"><br />
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="mt-2 mb-1 me-1 fw-bold">Perfil E Experiência Profissional:</span>
+                                        <span style="white-space: pre-line"
+                                            [innerHTML]="oferta.perfilExperienciaProfissional | highlight: searchInput">
+                                            <br />
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="mt-2 mb-1 me-1 fw-bold">Observações:</span>
+                                        <span style="white-space: pre-line"
+                                            [innerHTML]="oferta.observacoesAMostrar ? (oferta.observacoesAMostrar | highlight: searchInput): 'Sem Observações.'">
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="mt-2 mb-1 me-1 fw-bold">Anexos:</span>
+                                        <ng-container *ngIf="oferta.anexos?.length else semAnexos">
+                                            <span *ngFor="let anexo of oferta.anexos; let i = index">
+                                                {{anexo.fileName}}
+                                                <button class="mx-2 px-1" pButton icon="pi pi-download"
+                                                    style="font-size: 0.25rem" (click)="getAnexo(anexo._id)"></button>
+                                            </span>
+                                        </ng-container>
+                                        <ng-template #semAnexos>
+                                            Sem Anexos.
+                                        </ng-template>
+                                    </div>
+                                    <p [ngClass]="{'ler-mais' :oferta.lerMais}"
+                                        class="text-primary font-weight-bold text-center text-danger"
+                                        (click)="onLerMais(i)">
+                                        <ng-container *ngIf="oferta.lerMais">Ver mais</ng-container>
+                                        <ng-container *ngIf="!oferta.lerMais"><span class="ver-menos">Ver menos</span>
+                                        </ng-container>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #emptyAdmins>
+                <div class="empty-message h-100 w-100 p-3">
+                    <span>Não foram encontradas ofertas de emprego expiradas.</span>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</section>
+
+
+<!-- Modal Desarquivar oferta -->
+<p-dialog [(visible)]="modalOfertaEmpregoArquivo" [style]="{width: '30vw'}" [resizable]="false" [draggable]="false"
+    [baseZIndex]="5" (onHide)="closeModalOfertaEmprego()">
+    <ng-template pTemplate="header" class="pb-2">
+        <div>
+            <h4 class="big-title mt-3 p-0">
+                Insira uma nova data limite
+            </h4>
+            <hr class="big-title-line mb-3">
+        </div>
+    </ng-template>
+    <div>
+        <form [formGroup]="ofertaEmpregoArquivoForm">
+            <div class="p-fluid row mb-3">
+                <div class="col-12 p-field">
+                    <span class="p-float-label">
+                        <p-calendar formControlName="dataLimite" id="dataLimite" type="text" dataType="string"
+                            [ngClass]="{'float-input-invalid ng-dirty': submittedAdmin && ofertaEmpregoArquivoForm.controls.dataLimite.invalid}"
+                            [(ngModel)]="OfertaEmpregoArquivo.dataLimite" [showIcon]="true" inputId="icon"
+                            appendTo="body" dateFormat="dd/mm/yy">
+                        </p-calendar>
+                        <label for="nome" class="form-label">Data Limite*</label>
+                    </span>
+                    <span *ngIf="submittedAdmin && ofertaEmpregoArquivoForm.controls.dataLimite.invalid">
+                        <small class="p-error" *ngIf="ofertaEmpregoArquivoForm.controls.dataLimite.errors.required">Data
+                            limite
+                            é
+                            <strong>obrigatória</strong> </small>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p-footer class="pt-1">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeModalOfertaEmprego()">Cancelar</button>
+        <button type="button" class="btn btn-outline-danger"
+            (click)="guardarModalOfertaEmpregoArquivo()">Guardar</button>
+    </p-footer>
+</p-dialog>

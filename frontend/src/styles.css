@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.p-menu .p-menuitem-link:focus,.p-menu .p-menuitem-link:active{
+    box-shadow: none;
+    background-color: #f3f3f3;
+  }
+
+  .p-menu .p-menuitem-link {
+    transition: all 0.2s;
+  }
+
+  .grecaptcha-badge {
+    width: 70px !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+    right: 4px !important;
+    z-index: 999;
+    }
+    
+    .grecaptcha-badge:hover {
+    width: 256px !important;
+    }

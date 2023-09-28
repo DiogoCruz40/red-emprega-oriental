@@ -1,0 +1,9 @@
+<div class="search-div">
+  <span class="ui-inputgroup-addon" [attr.id]="idComponente == '' ? null : idComponente + 'Search'"
+    (click)="keyEnterUpdate()">
+    <em class="ai ai-search"></em>
+  </span>
+  <input #input pInputText (keyup)="keyEnterUpdate($event)" [disabled]="disabled"
+    [attr.id]="idComponente == '' ? null : idComponente + 'InputSearch'" class="w-100" placeholder="{{placeholder}}"
+    [(ngModel)]="wordToSearch" type="text" autocomplete="off">
+</div>

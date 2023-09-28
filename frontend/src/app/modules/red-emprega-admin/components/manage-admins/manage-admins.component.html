@@ -1,0 +1,142 @@
+<section id="termos-utilizacao" class="termos-utilizacao">
+    <p-toast></p-toast>
+    <div class="container container-box">
+        <div class="m-4">
+            <h2 class="big-title d-inline">
+                Administradores
+            </h2>
+            <button class="btn btn-outline-danger fw-bold float-end" (click)="openModalAddAdmin()"><i
+                    class="fas fa-plus"></i>
+                Adicionar Administrador</button>
+            <hr class="big-title-line mb-3">
+        </div>
+        <div class="content-box">
+            <div class="card-list overflow-hidden align-items-center">
+                <div class="row no-gutters mx-3 pb-4" *ngIf="adminsList.length > 0 else emptyAdmins">
+                    <p-confirmDialog defaultFocus="none" rejectButtonStyleClass="p-button-outlined p-button-danger" acceptButtonStyleClass="p-button-danger"></p-confirmDialog>
+                    <div *ngFor="let admin of adminsList; let i = index" class="col-12 pt-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row no-gutters">
+                                    <div class="col-8">
+                                        <h4 class="fw-bold text-left float-left">{{admin.nome}}
+                                        </h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="text-end">
+                                            <span style="padding-right:5px;"><p-button (click)="clickEditar(admin)" icon="fa fa-cog" styleClass="p-button-danger"></p-button></span>
+                                            <p-button (click)="clickEliminar(admin)" icon="fa fa-trash" styleClass="p-button-danger"></p-button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div #objetivo class="row no-gutters p-3 align-items-center card-info">
+                                <div #objetivoInner class="col-12 ">
+                                    <span class="mt-2 mb-1 fw-bold">Email:</span>
+                                    <span>
+                                        {{admin.email}} <br />
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #emptyAdmins>
+                <div class="empty-message h-100 w-100 p-3">
+                    <span>Não foram encontrados administradores.</span>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Adicionar Administrador -->
+<ng-template #modalAdmin>
+    <p-toast></p-toast>
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Adicionar Administrador</h4>
+        <button type="button" class="close" aria-label="fechar" (click)="closeModalAdmin()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="adminForm">
+            <div class="form-group mb-3">
+                <label for="nome">Nome*</label>
+                <input formControlName="nome" id="nome" type="text" [(ngModel)]="newUser.nome" class="form-control">
+                <div *ngIf="submittedAdmin && adminForm.controls.nome.touched && adminForm.controls.nome.invalid"
+                    class="alert alert-danger">
+                    <div *ngIf="adminForm.controls.nome.errors.required">Nome é obrigatório.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="email">Email*</label>
+                <input formControlName="email" id="email" type="text" [(ngModel)]="newUser.email" class="form-control">
+                <div *ngIf="submittedAdmin && adminForm.controls.email.touched && adminForm.controls.email.invalid"
+                    class="alert alert-danger">
+                    <div *ngIf="adminForm.controls.email.errors.required">Email é obrigatório.</div>
+                    <div *ngIf="adminForm.controls.email.errors.pattern">Email inválido. Ex: exemplo@exemplo.pt</div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeModalAdmin()">Cancelar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="guardarModalAdmin()">Guardar</button>
+    </div>
+</ng-template>
+
+<!-- Modal Adicionar Administrador -->
+<p-dialog [(visible)]="modalNewAdmin" [style]="{width: '50vw'}" [resizable]="false" [draggable]="false"
+    [baseZIndex]="5" (onHide)="closeModalAdmin()">
+    <ng-template pTemplate="header" class="pb-2">
+        <div>
+            <h4 class="big-title mt-3 p-0">
+                Adicionar Oferta de Emprego
+            </h4>
+            <hr class="big-title-line mb-3">
+        </div>
+    </ng-template>
+    <div>
+        <form [formGroup]="adminForm">
+            <div class="p-fluid row mb-4">
+                <div class="col-6 p-field">
+                    <span class="p-float-label">
+                        <input formControlName="nome" name="nome" type="text" class="form-control" id="nome"
+                            [ngClass]="{'float-input-invalid ng-dirty': submittedAdmin && adminForm.controls.nome.invalid}"
+                            [(ngModel)]="newUser.nome" pInputText required>
+                        <label for="nome" class="form-label">Nome*</label>
+                    </span>
+                    <span *ngIf="submittedAdmin && (adminForm.controls.nome.invalid)">
+                        <small class="p-error" *ngIf="adminForm.controls.nome.errors.required">Nome é
+                            <strong>obrigatório</strong>
+                        </small>
+                    </span>
+                </div>
+                <div class="p-field col-6">
+                    <span class="p-float-label">
+                        <input formControlName="email" name="email" type="text" class="form-control" id="email"
+                            [ngClass]="{'float-input-invalid ng-dirty': submittedAdmin && adminForm.controls.email.invalid}"
+                            [(ngModel)]="newUser.email" pInputText required>
+                        <label for="nome" class="form-label">Email*</label>
+                    </span>
+                    <span *ngIf="submittedAdmin && adminForm.controls.email.invalid">
+                        <small class="p-error" *ngIf="adminForm.controls.email.errors.required">Email é
+                            <strong>obrigatório</strong> </small>
+                        <small class="p-error" *ngIf="adminForm.controls.email.errors.pattern">Email
+                            <strong>inválido</strong>. Ex:
+                            exemplo@exemplo.pt</small>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p-footer class="pt-1">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeModalAdmin()">Cancelar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="guardarModalAdmin()">Guardar</button>
+    </p-footer>
+</p-dialog>

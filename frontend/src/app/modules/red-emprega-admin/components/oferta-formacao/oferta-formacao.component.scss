@@ -1,0 +1,50 @@
+@use "../../../../../styles/index" as *;
+
+.content-box .card-list {
+    .card {
+        background-color: $light;
+
+        .card-header {
+            font-weight: bold;
+            border-bottom: none;
+        }
+    }
+    .novo {
+        cursor: pointer;
+        .ai {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+:host ::ng-deep {
+    .airc-table-header {
+        background: white !important;
+    }
+}
+
+.container-box {
+    overflow: auto;
+    .content-box {
+        height: calc(100% - 140px);
+    }
+}
+
+section {
+    padding: 30px 0;
+}
+
+.p-dialog .p-dialog-footer {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f1f1;
+}
+
+.p-float-label.enviar-candidaturas {
+    top: -0.75rem;
+    font-size: 12px;
+}
+
+input[type="file"] {
+    display: none;
+}

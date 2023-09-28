@@ -1,0 +1,344 @@
+<!-- ======= Contact Section ======= -->
+<p-toast></p-toast>
+<section id="contact" class="contact bg-white">
+
+  <div *ngIf="isContactos" class="container mt-5" data-aos="fade-up">
+    <div class="col-lg-12 d-flex justify-content-center align-items-center">
+      <div class="row w-100">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <i class="iconContacto fas fa-envelope" aria-hidden="true"></i>
+              <h3>Contacto Geral</h3>
+              <a class="email" href="mailto:redelisboaoriental@googlegroups.com">redelisboaoriental@googlegroups.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isContactos" class="container mt-5" data-aos="fade-up">
+    <h2 class="big-title">Freguesia de Marvila</h2>
+    <hr class="big-title-line" />
+    <div class="row mt-2" data-aos="fade-up" data-aos-delay="100"
+      [ngClass]="{'border-bottom border-2': redeMarvilaList.length - 1 !== i}"
+      *ngFor="let redeMarvila of redeMarvilaList; let i = index">
+      <div class="col-lg-6 justify-content-center align-items-center">
+        <div class="row h-100">
+          <div class="col-md-12 mb-4 patrocinio-item-content">
+            <div class="card h-100 img-quem-somos">
+              <div class="card-body row align-items-center">
+                <div class="col-12">
+                  <img class="img-fluid" src="{{redeMarvila.src}}" class="d-block w-100"
+                    alt="imagem {{redeMarvila.nome}}" class="patrocinio-image">
+                  <div *ngIf="redeMarvila.link" class="overlay overlay-center">
+                    <div class="link-button">
+                      <a target="_blank" rel="noopener noreferrer" href="{{redeMarvila.link}}" id="update"
+                        style="text-decoration: none;">
+                        <span class="icon-rounded">
+                          <i class="fas fa-link"></i>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <h3>{{redeMarvila.nome}}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex justify-content-center align-items-center">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-map-marker-alt" aria-hidden="true"></i>
+                <h3>Endereço</h3>
+                <p>{{redeMarvila.endereco}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-envelope" aria-hidden="true"></i>
+                <h3>Email</h3>
+                <ng-container *ngFor="let email of redeMarvila.email">
+                  <a style="white-space: pre-line" class="email" href="mailto:{{email}}">{{email}}</a> <br>
+                </ng-container>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-phone" aria-hidden="true"></i>
+                <h3>Contacta-nos</h3>
+                <p style="white-space: pre-line">{{redeMarvila.contacto}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isContactos" class="container mt-5" data-aos="fade-up">
+    <h2 class="big-title">Freguesia dos Olivais</h2>
+    <hr class="big-title-line" />
+    <div class="row mt-2" [ngClass]="{'border-bottom border-2': redeOlivaisList.length - 1 !== i}" data-aos="fade-up"
+      data-aos-delay="100" *ngFor="let redeOlivais of redeOlivaisList; let i=index">
+      <div class="col-lg-6 justify-content-center align-items-center">
+        <div class="row h-100">
+          <div class="col-md-12 mb-4 patrocinio-item-content">
+            <div class="card h-100 img-quem-somos">
+              <div class="card-body row align-items-center">
+                <div class="col-12">
+                  <img class="img-fluid" src="{{redeOlivais.src}}" class="d-block w-100"
+                    alt="imagem {{redeOlivais.nome}}" class="patrocinio-image">
+                  <div class="overlay overlay-center">
+                    <div class="link-button">
+                      <a target="_blank" rel="noopener noreferrer" href="{{redeOlivais.link}}" id="update"
+                        style="text-decoration: none;">
+                        <span class="icon-rounded">
+                          <i class="fas fa-link"></i>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <h3>{{redeOlivais.nome}}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex justify-content-center align-items-center">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-map-marker-alt" aria-hidden="true"></i>
+                <h3>Endereço</h3>
+                <p>{{redeOlivais.endereco}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-envelope" aria-hidden="true"></i>
+                <h3>Email</h3>
+                <ng-container *ngFor="let email of redeOlivais.email">
+                  <a style="white-space: pre-line" class="email" href="mailto:{{email}}">{{email}}</a> <br>
+                </ng-container>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-phone" aria-hidden="true"></i>
+                <h3>Contacta-nos</h3>
+                <p style="white-space: pre-line">{{redeOlivais.contacto}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isContactos" class="container mt-5" data-aos="fade-up">
+    <h2 class="big-title">Freguesia do Parque das Nações</h2>
+    <hr class="big-title-line" />
+    <div class="row mt-2" [ngClass]="{'border-bottom border-2': redeParqueDasNacoesList.length - 1 !== i}"
+      data-aos="fade-up" data-aos-delay="100" *ngFor="let redeParqueDasNacoes of redeParqueDasNacoesList; let i=index">
+      <div class="col-lg-6 justify-content-center align-items-center">
+        <div class="row h-100">
+          <div class="col-md-12 mb-4 patrocinio-item-content">
+            <div class="card h-100 img-quem-somos">
+              <div class="card-body row align-items-center">
+                <div class="col-12">
+                  <img class="img-fluid" src="{{redeParqueDasNacoes.src}}" class="d-block w-100"
+                    alt="imagem {{redeParqueDasNacoes.nome}}" class="patrocinio-image">
+                  <div class="overlay overlay-center">
+                    <div class="link-button">
+                      <a target="_blank" rel="noopener noreferrer" href="{{redeParqueDasNacoes.link}}" id="update"
+                        style="text-decoration: none;">
+                        <span class="icon-rounded">
+                          <i class="fas fa-link"></i>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <h3>{{redeParqueDasNacoes.nome}}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex justify-content-center align-items-center">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-map-marker-alt" aria-hidden="true"></i>
+                <h3>Endereço</h3>
+                <p>{{redeParqueDasNacoes.endereco}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-envelope" aria-hidden="true"></i>
+                <h3>Email</h3>
+                <ng-container *ngFor="let email of redeParqueDasNacoes.email">
+                  <a style="white-space: pre-line" class="email" href="mailto:{{email}}">{{email}}</a> <br>
+                </ng-container>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-phone" aria-hidden="true"></i>
+                <h3>Contacta-nos</h3>
+                <p style="white-space: pre-line">{{redeParqueDasNacoes.contacto}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" data-aos="fade-up">
+    <h2 class="big-title">Suporte online</h2>
+    <hr class="big-title-line" />
+    <h4 class="pt-2">Dúvidas? Nós ajudamos!</h4>
+
+    <div class="row" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-lg-6 d-flex justify-content-center align-items-center">
+        <div class="row w-100">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-envelope" aria-hidden="true"></i>
+                <h3>Email</h3>
+                <a class="email"
+                  href="mailto:redelisboaoriental@googlegroups.com">redelisboaoriental@googlegroups.com</a>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!isContactos" class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <i class="iconContacto fas fa-phone" aria-hidden="true"></i>
+                <h3>Pretende contactar diretamente um dos nossos parceiros em especifico?</h3>
+                <p> <a routerLink="./contactos" class="btn btn-danger">Clique aqui</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <input name="email" style="display: none" [(ngModel)]="antiSpamBot">
+      <div class="col-lg-6">
+        <form [formGroup]="contactosForm" class="php-email-form">
+          <div class="row">
+            <div class="col form-group">
+              <span class="p-float-label">
+                <input formControlName="nome" name="nome" type="text" class="form-control" id="nome"
+                  [ngClass]="{'float-input-invalid ng-dirty': submitted && contactosForm.controls.nome.invalid}"
+                  [(ngModel)]="newContacto.nome" pInputText required>
+                <label for="nome" class="form-label">Nome*</label>
+              </span>
+              <span *ngIf="submitted && (contactosForm.controls.nome.invalid)">
+                <small class="p-error" *ngIf="contactosForm.controls.nome.errors.required">Nome é
+                  <strong>obrigatório</strong>
+                </small>
+              </span>
+            </div>
+            <div class="col form-group">
+              <span class="p-float-label">
+                <input formControlName="email" name="email" type="text" class="form-control" id="email"
+                  [ngClass]="{'float-input-invalid ng-dirty': submitted && contactosForm.controls.email.invalid}"
+                  [(ngModel)]="newContacto.email" pInputText>
+                <label for="email" class="form-label">Email*</label>
+              </span>
+              <span *ngIf="submitted && contactosForm.controls.email.invalid">
+                <small class="p-error" *ngIf="contactosForm.controls.email.errors.required">Email é
+                  <strong>obrigatório</strong></small>
+                <small class="p-error" *ngIf="contactosForm.controls.email.errors.pattern">Email
+                  <strong>inválido.</strong> Ex:
+                  exemplo@exemplo.pt
+                </small>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <span class="p-float-label">
+              <input formControlName="assunto" name="assunto" type="text" class="form-control" id="assunto"
+                [ngClass]="{'float-input-invalid ng-dirty': submitted && contactosForm.controls.assunto.invalid}"
+                [(ngModel)]="newContacto.assunto" pInputText required>
+              <label for="assunto" class="form-label">Assunto*</label>
+            </span>
+            <span *ngIf="submitted && (contactosForm.controls.assunto.invalid)">
+              <small class="p-error" *ngIf="contactosForm.controls.assunto.errors.required">Assunto é
+                <strong>obrigatório</strong>
+              </small>
+            </span>
+          </div>
+          <div class="form-group">
+            <span class="p-float-label">
+              <textarea formControlName="mensagem" name="mensagem" type="text" class="form-control" id="mensagem"
+                rows="5"
+                [ngClass]="{'float-input-invalid ng-dirty': submitted && contactosForm.controls.assunto.invalid}"
+                [(ngModel)]="newContacto.mensagem" pInputText required></textarea>
+              <label for="mensagem" class="form-label">Mensagem*</label>
+            </span>
+            <span *ngIf="submitted && (contactosForm.controls.mensagem.invalid)">
+              <small class="p-error" *ngIf="contactosForm.controls.mensagem.errors.required">Mensagem é
+                <strong>obrigatória</strong>
+              </small>
+            </span>
+          </div>
+          <div class="my-3">
+            <div class="loading">Loading</div>
+            <div class="error-message text-center">Houve um problema ao enviar a sua mensagem.<br> Por favor
+              contacto-nos a partir dos contactos disponíveis.</div>
+            <div class="sent-message text-center">
+              <div class="success-checkmark">
+                <div class="check-icon">
+                  <span class="icon-line line-tip"></span>
+                  <span class="icon-line line-long"></span>
+                  <div class="icon-circle"></div>
+                  <div class="icon-fix"></div>
+                </div>
+              </div>
+              <p class="pt-3">A sua mensagem foi enviada. Entraremos em contacto em breve.</p>
+            </div>
+          </div>
+
+          <div class="text-center" *ngIf="recaptcha?.render">
+
+            <button type="submit" class="btn btn-outline-danger" (click)="enviarMensagem()">Enviar mensagem</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Contact Section -->
+
+<re-captcha *ngIf="ready" (resolved)="captchaResponse($event)" siteKey="6LcIv4QcAAAAAKe9noVdizBDZjN9HGMKMKWWy6gp"
+  size="invisible"></re-captcha>

@@ -1,0 +1,227 @@
+<section id="ofertas-emprego" class="ofertas-emprego">
+    <div class="container container-box">
+        <div class="m-4">
+            <h2 class="b
+            0ig-title d-inline">
+                Notícias
+            </h2>
+            <button class="btn btn-outline-danger fw-bold float-end" (click)="openModalNewNoticia()"><i
+                    class="fas fa-plus"></i> Adicionar Nova Notícia</button>
+            <hr class="big-title-line mb-3">
+        </div>
+        <p-toast></p-toast>
+        <div class="offset-9 px-4 mb-2 align-items-center text-end">
+            <re-search-box placeholder="Pesquisa" [wordToSearch]="searchInput" (update)="searchInput = $event">
+            </re-search-box>
+        </div>
+        <div class="content-box">
+            <div class="card-list overflow-hidden align-items-center">
+                <div class="row no-gutters px-3 pb-4" *ngIf="noticiaList.length > 0 else emptyAdmins">
+                    <p-confirmDialog defaultFocus="none" rejectButtonStyleClass="p-button-outlined p-button-danger"
+                        acceptButtonStyleClass="p-button-danger"></p-confirmDialog>
+                    <div *ngFor="let noticia of noticiaList; let i = index" class="col-12 pt-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row no-gutters">
+                                    <div class="col-10">
+                                        <h4 class="fw-bold text-left float-left titulo-text"
+                                            [innerHTML]="noticia.titulo | highlight: searchInput">
+                                        </h4>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="text-end">
+                                            <button class="btn btn-danger me-2" (click)="clickEditar(noticia)"><i
+                                                    class="fas fa-edit"></i></button>
+
+                                            <button class="btn btn-danger" (click)="clickEliminar(noticia)"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div #noticia class="row no-gutters px-3 py-2 align-items-center card-info">
+                                <div class="col-2 align-items-center" *ngIf="noticia.imgPrevisualizar">
+                                    <img [src]="noticia.imgPrevisualizar" class="d-block w-100 h-100 thumbnail"
+                                        alt="imagem{{i}}">
+                                </div>
+                                <div [ngClass]="noticia.imgPrevisualizar? 'col-10' : 'col-12'">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span class="descricao-text"
+                                                [innerHTML]="noticia.descricao | highlight: searchInput"> <br />
+                                            </span>
+                                        </div>
+                                        <div class="col-12">
+                                            <span class="mt-2 mb-1 me-1 fw-bold">Anexos:</span>
+                                            <ng-container *ngIf="noticia.anexos?.length else semAnexos">
+                                                <span *ngFor="let anexo of noticia.anexos; let i = index">
+                                                    {{anexo.fileName}}
+                                                    <button class="mx-2 px-1" pButton icon="pi pi-download"
+                                                        style="font-size: 0.25rem"
+                                                        (click)="getAnexo(anexo._id)"></button>
+                                                </span>
+                                            </ng-container>
+                                            <ng-template #semAnexos>
+                                                Sem Anexos.
+                                            </ng-template>
+                                        </div>
+                                        <div class="col-12">
+                                            <span class="mt-2 mb-1 me-1 fw-bold">Inserido por:</span>
+                                            <span [innerHTML]="noticia.inseridoPor.nome | highlight: searchInput">
+                                                <br />
+                                            </span>
+                                        </div>
+                                        <div class="col-12 text-end">
+                                            <span class="text-primary font-weight-bold text-danger preVisualizar"
+                                                (click)="openModalNoticia(noticia)">Pré-Visualizar
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #emptyAdmins>
+                <div class="empty-message h-100 w-100 p-3">
+                    <span>Não foram encontradas notícias.</span>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Adicionar Notícia -->
+<p-dialog [(visible)]="modalNewNoticia" [style]="{width: '50vw'}" [resizable]="false" [draggable]="false"
+    [baseZIndex]="5" (onHide)="closeModalNewNoticia()">
+    <ng-template pTemplate="header" class="pb-2">
+        <div>
+            <h4 class="big-title mt-3 p-0">
+                Adicionar Notícia
+            </h4>
+            <hr class="big-title-line mb-3">
+        </div>
+    </ng-template>
+    <div>
+        <form [formGroup]="noticiaForm">
+            <div class="p-fluid row mb-4">
+                <div class="col-12 p-field">
+                    <span class="p-float-label">
+                        <input formControlName="titulo" name="titulo" type="text" class="form-control" id="nome"
+                            [ngClass]="{'float-input-invalid ng-dirty': submittedNoticia && noticiaForm.controls.titulo.invalid}"
+                            [(ngModel)]="noticia.titulo" pInputText required>
+                        <label for="titulo" class="form-label">Título*</label>
+                    </span>
+                    <span *ngIf="submittedNoticia && (noticiaForm.controls.titulo.invalid)">
+                        <small class="p-error" *ngIf="noticiaForm.controls.titulo.errors.required">Título é
+                            <strong>obrigatório</strong>
+                        </small>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group mb-4">
+                <span class="p-float-label">
+                    <textarea formControlName="descricao" id="descricao" type="text" pInputText rows="4"
+                        [ngClass]="{'float-input-invalid ng-dirty': submittedNoticia && noticiaForm.controls.descricao.invalid}"
+                        autoResize="autoResize" [(ngModel)]="noticia.descricao" class="form-control"></textarea>
+                    <label for="descricao" class="form-label">Descrição*</label>
+                </span>
+                <span *ngIf="submittedNoticia && (noticiaForm.controls.descricao.invalid)">
+                    <small class="p-error" *ngIf="noticiaForm.controls.descricao.errors.required">Descrição é
+                        <strong>obrigatória</strong>
+                    </small>
+                </span>
+            </div>
+            <div class="col-md-12">
+                <div class="col-12 p-0">
+                    <label class="font-weight-bold">Adicionar Pré-visualizar (Máximo 16Mb, formato jpg/png/jpeg)</label>
+                </div>
+                <div class="col-12 pt-2">
+                    <div class="d-flex align-items-center">
+                        <span for="file-upload" class="p-button p-component p-fileupload-choose p-ripple me-2"
+                            (click)="fileUploadPreVisualizar.click()">
+                            <span class="pi pi-plus p-button-icon p-button-icon-left"></span>
+                            <span class="p-button-label">Adicionar Imagem</span>
+                        </span>
+                        <ng-container *ngIf="noticia.filePreVisualizar">
+                            {{noticia.filePreVisualizar.name}}
+                            <button class="mx-2" pButton icon="pi pi-times"
+                                (click)="removeFilePrevisualizar()"></button>
+                        </ng-container>
+                        <input type="file" accept=".jpg,.png,.jpeg" (change)="handleFileInputPreVisulizar($event)"
+                            multiple="single" #fileUploadPreVisualizar />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-12 p-0">
+                    <label class="font-weight-bold">Anexar Documentos (Máximo 2 anexos e 16Mb cada)</label>
+                </div>
+                <div class="col-12 pt-2">
+                    <div class="d-flex align-items-center">
+                        <span for="file-upload" class="p-button p-component p-fileupload-choose p-ripple me-2"
+                            (click)="fileUpload.click()">
+                            <span class="pi pi-plus p-button-icon p-button-icon-left"></span>
+                            <span class="p-button-label">Adicionar Ficheiro</span>
+                        </span>
+                        <ng-container *ngIf="noticia.files?.length">
+                            <span *ngFor="let files of noticia.files; let i = index">
+                                {{files.name}}
+                                <button class="mx-2" pButton icon="pi pi-times" (click)="removeFile(i)"></button>
+                            </span>
+                        </ng-container>
+
+                        <input type="file" accept=".doc,.docx,.pdf" (change)="handleFileInput($event)"
+                            multiple="multiple" #fileUpload />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p-footer class="pt-1">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeModalNewNoticia()">Cancelar</button>
+        <button type="button" class="btn btn-outline-danger" (click)="guardarModalNoticia()">Guardar</button>
+    </p-footer>
+</p-dialog>
+
+
+
+
+<!-- Modal Ver Notícia -->
+<p-dialog [(visible)]="modalNoticia" [style]="{width: '70vw'}" [resizable]="false" [draggable]="false" [baseZIndex]="5"
+    [blockScroll]="true" (onHide)="closeModalNoticia()">
+    <ng-template pTemplate="header" class="pb-2">
+        <div>
+            <h4 class="big-title mt-3 p-0">
+                {{noticiaSelecionada.titulo}}
+            </h4>
+            <hr class="big-title-line mb-3">
+        </div>
+    </ng-template>
+    <div>
+        <div class="col-12 align-items-center" *ngIf="noticiaSelecionada.imgPrevisualizar">
+            <img class="img-fluid" [src]="noticiaSelecionada.imgPrevisualizar"
+                class="d-block img-fluid imagemSelecionada" alt="imagemSelecionada">
+        </div>
+        <div class="col-md-12 mt-2">
+            <div class="row">
+                <div class="col-12">
+                    <span style="white-space: pre-line" [innerHTML]="noticiaSelecionada.descricao"> <br />
+                    </span>
+                </div>
+                <div class="col-12" *ngIf="noticiaSelecionada.anexos?.length">
+                    <span class="mt-2 mb-1 me-1 fw-bold">Anexos:</span>
+                    <span *ngFor="let anexo of noticiaSelecionada.anexos; let i = index">
+                        {{anexo.fileName}}
+                        <button class="mx-2 px-1" pButton icon="pi pi-download" style="font-size: 0.25rem"
+                            (click)="getAnexo(anexo._id)"></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-footer class="pt-1">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeModalNoticia()">Cancelar</button>
+    </p-footer>
+</p-dialog>

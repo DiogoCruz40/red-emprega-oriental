@@ -1,0 +1,42 @@
+@use '../../../../../styles' as *;
+
+::ng-deep airc-search-box {
+  .search-div {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    span {
+      background-color: transparent;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      margin-top: -0.5em;
+      margin-left: 0.5em;
+      vertical-align: center;
+      color: blue;
+    }
+
+    input:not([type="checkbox"]) {
+      padding-left: 1.7rem;
+      &:disabled {
+        background-color: gray;
+        border: 1px;
+        opacity: 1;
+      }
+      width: 100%;
+    }
+
+    .ui-inputtext:enabled {
+      &:hover:not(.ui-state-error),
+      &:focus:not(.ui-state-error) {
+        box-shadow: none;
+        border: 1px;
+        color: blue;
+      }
+    }
+  }
+
+  &[ng-reflect-disabled*="true"] .search-div span {
+    color: gray;
+  }
+}
